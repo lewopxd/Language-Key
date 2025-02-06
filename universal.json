@@ -5,7 +5,8 @@
       "author": "Development Team",
       "created": "2023-10-01",
       "description": "Multilingual translations for the website.",
-      "usage": "Processed by the internationalization script."
+      "usage": "Processed by the internationalization script.",
+      "fallbackLanguage": "en"
     },
     "types": {
       "lk": {
@@ -20,8 +21,8 @@
         "example": "<h1 lk-text-content k=\"description\">Fallback</h1>"
       
       },
-      "label-lk-*": {
-        "description": "For modifying the * attribute (src, style, alt.. etc) of a tag using label-lk-src k=\"...\".",
+      "label-lk": {
+        "description": "For modifying the attribute (src, style, alt.. etc) of a tag using label-lk-* k=\"...\".",
         "type": "atribute",
         "example": "<img src=\"default.png\" label-lk-src k=\"image\">"
          
