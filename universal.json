@@ -13,19 +13,16 @@
         "description": "For wrapping text blocks using the <lk k=\"...\"> tag.",
         "type": "plain text",
         "example": "<lk k=\"title\">Fallback</lk>"
-        
       },
       "lk-text-content": {
         "description": "For changing the text content of an element using the lk-text-content k=\"...\" attribute.",
         "type": "plain text",
         "example": "<h1 lk-text-content k=\"description\">Fallback</h1>"
-      
       },
       "label-lk": {
-        "description": "For modifying the attribute (src, style, alt.. etc) of a tag using label-lk-* k=\"...\".",
-        "type": "atribute",
+        "description": "For modifying attributes (src, alt, etc.) of a tag using label-lk-* k=\"...\".",
+        "type": "attribute",
         "example": "<img src=\"default.png\" label-lk-src k=\"image\">"
-         
       }
     }
   },
