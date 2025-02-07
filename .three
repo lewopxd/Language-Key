@@ -1,0 +1,99 @@
+/proyecto
+  ├── /dev
+  │     ├── /locales
+  │     │       └── universal.json       # Archivo JSON con las traducciones
+  │     ├── index.html                   # Archivo HTML principal (punto de entrada)
+  │     ├── /other-page
+  │     │       └── about.html           # Otro archivo HTML
+  │     ├── /assets                      # Recursos compartidos que se optimizan
+  │     │       ├── /images              # Imágenes que se optimizan
+  │     │       │      └── portrait.png
+  │     │       └── /fonts               # Fuentes que se optimizan
+  │     │              └── font.woff2
+  │     ├── /src                         # Archivos fuente (CSS, JS)
+  │     │       ├── /css                 # Archivos CSS
+  │     │       │      └── styles.css
+  │     │       └── /js                  # Archivos JavaScript
+  │     │              └── script.js
+  │     └── /public                      # Recursos que pasan directamente a /dist (sin optimizacion)
+  │             ├── /images              # Imágenes globales
+  │             │      └── logo.png
+  │             ├── /styles              # Estilos globales
+  │             │      └── global.css
+  │             └── /scripts             # Scripts globales
+  │                    └── shared.js
+  │
+  ├── /pre-build                         # Carpeta intermedia con las traducciones HTML generadas
+  │     ├── index.html                   # Archivo de entrada traducido
+  │     ├── /es                          # Versión en español
+  │     │       ├── index.html
+  │     │       └── /other-page
+  │     │               └── about.html
+  │     ├── /en                          # Versión en inglés
+  │     │       ├── index.html
+  │     │       └── /other-page
+  │     │               └── about.html
+  │
+  ├── /dist                              # Carpeta final optimizada para producción
+  │     ├── index.html                   # Archivo de entrada optimizado
+  │     ├── /assets                      # Recursos compartidos optimizados
+  │     │       ├── /images              # Imágenes optimizadas
+  │     │       │      └── portrait.png
+  │     │       ├── /fonts               # Fuentes optimizadas
+  │     │       │      └── font.woff2
+  │     │       ├── /css                 # Archivos CSS minificados
+  │     │       │      └── styles.min.css
+  │     │       └── /js                  # Archivos JS minificados
+  │     │              └── script.min.js
+  │     ├── /images                      # Copia de los recursos de /public/images
+  │     │      └── logo.png
+  │     ├── /styles                      # Copia de los estilos de /public/styles
+  │     │      └── global.css
+  │     ├── /scripts                     # Copia de los scripts de /public/scripts
+  │     │      └── shared.js
+  │     ├── /es                          # Versión optimizada en español
+  │     │       ├── index.html
+  │     │       └── /other-page
+  │     │               └── about.html
+  │     ├── /en                          # Versión optimizada en inglés
+  │     │       ├── index.html
+  │     │       └── /other-page
+  │     │               └── about.html
+  │
+  ├── translate.js                       # Script para generar las traducciones en `pre-build`
+  └── build.js                           # Script para optimizar los archivos en `dist`
+
+
+# Explicación de la Estructura
+
+#  Recursos Compartidos :
+#  Los recursos como imágenes, CSS y JavaScript están centralizados en /dev/assets y /dist/assets.
+#  Esto evita duplicar archivos innecesariamente y simplifica el mantenimiento.
+
+#  Casos Excepcionales :
+#  Si un recurso es específico para un idioma (por ejemplo, portrait_es.png), se maneja directamente en el archivo JSON mediante claves como label-lk-src:image.
+#  Para clases CSS específicas (por ejemplo, .boton_es), se usa el atributo label-lk-className en el HTML y se define en el JSON.
+
+#  Optimización :
+#  Los recursos compartidos en /dev/assets se copian y optimizan en /dist/assets durante el proceso de construcción.
+#  Los archivos específicos de idioma (si existen) se manejan automáticamente por el sistema de traducción.
+
+
+# Flujo de Trabajo:
+# 1.Dev -> 2.Pre-build (traducción) -> 3.Optimización -> 4.Despliegue   *3.opcional herramientas de minificacion de imagenes etc..+ nechmarks etc..
+
+# 1. Desarrollo : /dev, > creación y modifición de archivos HTML, JSON y recursos compartidos en /dev/assets.
+#  2. Traducción : El script translate.js procesa los archivos de /dev y genera las versiones traducidas en /pre-build.
+#      Este paso replica la estructura de /dev para cada idioma, pero no incluye los recursos compartidos (ya que son comunes).
+#    3. Optimización : El script build.js toma los archivos de /pre-build y los optimiza para producción:
+#       Minifica HTML, CSS y JavaScript.
+#       Comprime imágenes.
+#       Copia los recursos compartidos optimizados a /dist/assets.
+#     4.Despliegue :
+#       Los archivos en /dist están listos para ser subidos a un servidor web o CDN.
+#       Cada idioma en /dist utiliza los recursos compartidos en /dist/assets, excepto en casos excepcionales manejados por el sistema de traducción.
+
+
+
+#/public :  Los recursos globales (que no necesitan procesamiento) > pasan directamente a dist
+#/assets: Los recursos estáticos que  se quieren optimizar durante la construcción
