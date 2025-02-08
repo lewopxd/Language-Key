@@ -36,8 +36,8 @@ The JSON file contains translations for multiple languages. Each key includes a 
 | Prefix               | Usage                                                                                     | HTML Example                                      |
 |----------------------|-------------------------------------------------------------------------------------------|--------------------------------------------------|
 | `lk:`                | For wrapping text blocks using the `<lk k="...">` tag.                                    | `<lk k="title">Fallback</lk>`                   |
-| `lk-text-content:`   | For changing the text of an element using the `lk-text-content k="..."` attribute.        | `<h1 lk-text-content k="description">Fallback</h1>` |
-| `label-lk-*:`      | For modifying the `*`  attribute (src, alt, style... etc) of a tag using ex: `label-lk-src k="..."`.                  | `<img src="default.png" label-lk-src k="image-portrait">` |
+| `lk-text-content:`   | For changing the text of an element using the `lk-text-content k="..."` attribute.        | `<h1 lk-text-content-k="description">Fallback</h1>` |
+| `label-lk-*:`      | For modifying the `*`  attribute (src, alt, style... etc) of a tag using ex: `label-lk-src k="..."`.                  | `<img src="default.png" label-lk-src-k="image-portrait">` |
  
 ### Corresponding HTML
 
@@ -45,8 +45,8 @@ Here’s how the JSON keys map to the HTML structure:
 
 ```html
 <title><lk k="title">Example Title</lk></title>
-<h1 lk-text-content k="description">Example description for lk-text-content</h1>
-<img src="portrait_default.png" label-lk-src k="image" label-lk-alt k="imageAlt" alt="Portrait">
+<h1 lk-text-content-k="description">Example description for lk-text-content</h1>
+<img src="portrait_default.png" label-lk-src-k="image" label-lk-alt-k="imageAlt" alt="Portrait">
 <p><lk k="description">Example description for <lk>.</lk></p>
 ```
 
