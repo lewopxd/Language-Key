@@ -1,7 +1,9 @@
-import { Console } from "console";
-import fs from "fs";
+ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import { createInterface } from "readline";
+
+ 
 
 // Obtener __dirname usando ESM
 const __filename = fileURLToPath(import.meta.url);
@@ -49,6 +51,58 @@ const fallbackLanguage = metadata.file.fallbackLanguage || "en";
 const supportedLanguages = Object.keys(translations);
 console.log(`\x1b[34mInfo:\x1b[0m Default language set to: ${fallbackLanguage}`);
 console.log(`\x1b[34mInfo:\x1b[0m Supported languages in .json: [${supportedLanguages.join(", ")}]`);
+
+
+
+// generar archivo de entrada pre-build/index.html
+function generateRedirectHtml(supportedLanguages, defaultLang, titlePage) {
+  // Generar las etiquetas <link rel="alternate" hreflang="...">
+  const hreflangTags = supportedLanguages
+    .map(
+      (lang) =>
+        `<link rel="alternate" href="${lang}/" hreflang="${lang}" />`
+    )
+    .join("\n");
+
+  // Agregar una etiqueta adicional para la versión por defecto
+  const defaultHreflang = `<link rel="alternate" href="${defaultLang}/" hreflang="x-default" />`;
+
+  return `<!DOCTYPE html>
+<html lang="${defaultLang}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${titlePage}</title>
+  ${hreflangTags}
+  ${defaultHreflang}
+  <script>
+    (() => {
+      const userLang = navigator.language || navigator.userLanguage;
+      const supported = ${JSON.stringify(supportedLanguages)};
+      const defaultLang = '${defaultLang}';     
+      const redirectLang = supported.find(lang => userLang.startsWith(lang)) || defaultLang;
+      window.location.href = \`\${redirectLang}/\`;
+    })();
+  </script>
+</head>
+<body>
+  <noscript>
+    <p>JavaScript is required to automatically redirect you. Please choose your language:</p>
+    <ul>
+      ${supportedLanguages.map(lang => `<li><a href="${lang}/">${lang.toUpperCase()}</a></li>`).join('\n')}
+    </ul>
+  </noscript>
+</body>
+</html>`;
+}
+ 
+ 
+
+
+
+
+
+
 
 // Función para encontrar todos los archivos HTML en el árbol de directorios
 function findHtmlFiles(dir) {
@@ -460,10 +514,65 @@ for (const [lang, texts] of Object.entries(translations)) {
   });
 }
 
+
+
+ 
+  
+ //--<
+
+
+ 
+
+
+
+// Llamar a la función para manejar el archivo index.html
+handleIndexHtml(preBuildDir, supportedLanguages, fallbackLanguage);
+
+// Función para manejar el archivo index.html en /pre-build
+function handleIndexHtml(preBuildDir, supportedLanguages, fallbackLanguage) {
+  const indexPath = path.join(preBuildDir, "index.html");
+  // Verificar si el archivo index.html existe
+  if (!fs.existsSync(indexPath)) {
+    // Crear una interfaz readline para preguntar al usuario
+    const rl = createInterface({
+      input: process.stdin,
+      output: process.stdout,
+    });
+   
+    console.log(`\x1b[36m---------------------------------------------------------------------------------\x1b[0m`);
+
+    // Preguntar al usuario si desea crear el archivo index.html
+    rl.question(
+      `\n\x1b[33mWarning:\x1b[0m The file 'index.html' does not exist in the /pre-build folder. \nDo you want to create it? (y/n): `,
+      (answer) => {
+        if (answer.toLowerCase() === "y" || answer.toLowerCase() === "yes") {
+          // Crear un archivo index.html con redirecciones para cada idioma
+          const redirectHtml = generateRedirectHtml(supportedLanguages, fallbackLanguage, "Redirect");
+          fs.writeFileSync(indexPath, redirectHtml);
+          console.log(`\n\x1b[32mCreated:\x1b[0m File: ${indexPath}`);
+        } else {
+          console.log(`\n\x1b[31mSkipped:\x1b[0m File 'index.html' was not created.`);
+        }
+        rl.close(); // Cerrar la interfaz readline
+        end();
+      }
+    );
+  } else {
+       
+      end();
+
+  }
+}
+
+
+
+function end(){
+
 // Fin del tiempo de ejecución
 const endTime = Date.now();
 const totalTime = ((endTime - startTime) / 1000).toFixed(2);
 
-  console.log(`\x1b[36m---------------------------------------------------------------------------------\x1b[0m`);
+console.log(`\x1b[36m---------------------------------------------------------------------------------\x1b[0m`);
 console.log(`\x1b[34mSummary:\x1b[0m Processed ${htmlFiles.length} files and ${totalLk + totalLabelLk + totalLkTextContent} labels in ${totalTime} seconds.`);
 console.log("\x1b[32mALL OK\x1b[0m");
+}
