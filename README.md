@@ -16,10 +16,10 @@ The JSON file contains translations for multiple languages. Each key includes a 
 {
   "es": {
     "lk:title": "Bienvenido",
-    "lk:description": "This is a description for <lk>.",
-    "lk-text-content:description": "This is a description for lk-text-content.",
+    "lk:description": "Esta es una descripción para <lk>.",
+    "lk-text-content:description": "Esta es una descripción lk-text-content.",
     "label-lk-src:image": "/assets/images/portrait_es.png",
-    "label-lk-alt:imageAlt": "Spanish image"
+    "label-lk-alt:imageAlt": "Imagen en español"
   },
   "en": {
     "lk:title": "Welcome",
