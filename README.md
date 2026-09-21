@@ -1,69 +1,63 @@
----
+# Language-Key
 
-# Multilingual Internationalization System
+> Lightweight multilingual HTML processing system built with JavaScript and JSON.
 
-This system allows you to generate multilingual versions of a website using a JSON file for translations, custom HTML tags, and a processing script.
+Language-Key is a custom internationalization workflow for static websites. It uses a JSON translation source and custom HTML attributes/tags to generate localized HTML while keeping the source markup readable.
 
----
+## What it does
 
-## 1. JSON File Structure
+- Defines translations in a structured JSON file.
+- Supports text nodes and HTML attributes.
+- Uses custom keys such as `lk:`, `lk-text-content:`, and `label-lk-*:`.
+- Processes HTML with a JavaScript generation script.
+- Keeps localization logic separate from the site's content structure.
 
-The JSON file contains translations for multiple languages. Each key includes a prefix that indicates its type of use (`lk`, `lk-text-content`, `label-lk-*`), ensuring a clear structure and avoiding conflicts between keys with similar names.
+## Example
 
-### Example JSON
+Translation data:
 
 ```json
 {
-  "es": {
-    "lk:title": "Bienvenido",
-    "lk:description": "Esta es una descripción para <lk>.",
-    "lk-text-content:description": "Esta es una descripción lk-text-content.",
-    "label-lk-src:image": "/assets/images/portrait_es.png",
-    "label-lk-alt:imageAlt": "Imagen en español"
-  },
   "en": {
     "lk:title": "Welcome",
-    "lk:description": "This is a description for <lk>.",
-    "lk-text-content:description": "This is a description for lk-text-content.",
-    "label-lk-src:image": "/assets/images/portrait_en.png",
-    "label-lk-alt:imageAlt": "English image"
+    "lk-text-content:description": "A multilingual website"
+  },
+  "es": {
+    "lk:title": "Bienvenido",
+    "lk-text-content:description": "Un sitio web multilingüe"
   }
 }
 ```
 
-### Prefixes and Their Meaning
-
-| Prefix               | Usage                                                                                     | HTML Example                                      |
-|----------------------|-------------------------------------------------------------------------------------------|--------------------------------------------------|
-| `lk:`                | For wrapping text blocks using the `<lk k="...">` tag.                                    | `<lk k="title">Fallback</lk>`                   |
-| `lk-text-content:`   | For changing the text of an element using the `lk-text-content k="..."` attribute.        | `<h1 lk-text-content-k="description">Fallback</h1>` |
-| `label-lk-*:`      | For modifying the `*`  attribute (src, alt, style... etc) of a tag using ex: `label-lk-src k="..."`.                  | `<img src="default.png" label-lk-src-k="image-portrait">` |
- 
-### Corresponding HTML
-
-Here’s how the JSON keys map to the HTML structure:
+HTML:
 
 ```html
-<title><lk k="title">Example Title</lk></title>
-<h1 lk-text-content-k="description">Example description for lk-text-content</h1>
-<img src="portrait_default.png" label-lk-src-k="image" label-lk-alt-k="imageAlt" alt="Portrait">
-<p><lk k="description">Example description for <lk>.</lk></p>
+<title><lk k="title">Fallback title</lk></title>
+<h1 lk-text-content-k="description">Fallback description</h1>
 ```
 
----
+The processing step produces the corresponding localized HTML.
 
-## 2. Processing Script
+## Why it exists
 
-The script processes the JSON file and generates translated versions of the HTML. You can find the source code for the script in the `generate-html.js` file.
+The project explores a simple alternative to introducing a full internationalization framework into lightweight/static websites. The goal is to make multilingual content explicit in the markup while keeping the build process understandable and customizable.
 
----
+## Technology
 
-## 3. Benefits of the System
+- JavaScript
+- HTML5
+- JSON
+- Static-site processing
+- Custom HTML attributes and elements
 
-- **Clarity**: Prefixes explicitly indicate the type of usage.
-- **Conflict Avoidance**: Keys are unique thanks to prefixes.
-- **Flexibility**: Easy to extend for new types or languages.
-- **Ease of Maintenance**: Easy to understand and extend for other developers.
+## Status
 
----
- 
+Experimental / personal tooling project.
+
+## Author
+
+**Leonardo Merchán — lewopxd**
+
+Part of a broader practice combining software development, creative technology, design and research.
+
+[GitHub profile](https://github.com/lewopxd) · [0zdev](https://github.com/0zdev)
