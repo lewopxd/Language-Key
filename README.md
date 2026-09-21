@@ -1,63 +1,46 @@
 # Language-Key
 
-> Lightweight multilingual HTML processing system built with JavaScript and JSON.
+A lightweight multilingual HTML processing system built with JavaScript and JSON.
 
-Language-Key is a custom internationalization workflow for static websites. It uses a JSON translation source and custom HTML attributes/tags to generate localized HTML while keeping the source markup readable.
+Language-Key provides a custom internationalization workflow for static websites. Translation data is kept in JSON and applied to HTML through custom attributes and elements during a generation step.
 
-## What it does
+## Features
 
-- Defines translations in a structured JSON file.
-- Supports text nodes and HTML attributes.
-- Uses custom keys such as `lk:`, `lk-text-content:`, and `label-lk-*:`.
-- Processes HTML with a JavaScript generation script.
-- Keeps localization logic separate from the site's content structure.
+- Structured JSON translation sources.
+- Localization of text nodes and HTML attributes.
+- Custom localization keys and HTML attributes.
+- JavaScript-based HTML generation.
+- Separation between source markup and translated output.
 
 ## Example
 
 Translation data:
 
-```json
-{
-  "en": {
-    "lk:title": "Welcome",
-    "lk-text-content:description": "A multilingual website"
-  },
-  "es": {
-    "lk:title": "Bienvenido",
-    "lk-text-content:description": "Un sitio web multilingüe"
-  }
-}
-```
+    {
+      "en": {
+        "lk:title": "Welcome"
+      },
+      "es": {
+        "lk:title": "Bienvenido"
+      }
+    }
 
-HTML:
+HTML can reference the same keys while retaining fallback content in the source markup.
 
-```html
-<title><lk k="title">Fallback title</lk></title>
-<h1 lk-text-content-k="description">Fallback description</h1>
-```
+## Approach
 
-The processing step produces the corresponding localized HTML.
-
-## Why it exists
-
-The project explores a simple alternative to introducing a full internationalization framework into lightweight/static websites. The goal is to make multilingual content explicit in the markup while keeping the build process understandable and customizable.
+The project explores a simple build-time localization workflow for lightweight and static websites, avoiding a runtime translation layer when it is not required.
 
 ## Technology
 
-- JavaScript
-- HTML5
-- JSON
-- Static-site processing
-- Custom HTML attributes and elements
+JavaScript · HTML5 · JSON · static-site processing
 
 ## Status
 
-Experimental / personal tooling project.
+Experimental tooling project.
 
-## Author
+## Project
 
-**Leonardo Merchán — lewopxd**
+Developed by Leonardo Merchán as part of his work across software development, creative technology and web design.
 
-Part of a broader practice combining software development, creative technology, design and research.
-
-[GitHub profile](https://github.com/lewopxd) · [0zdev](https://github.com/0zdev)
+[GitHub](https://github.com/lewopxd) · [0zdev](https://github.com/0zdev)
